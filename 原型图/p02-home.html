@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>02 · 首页 · 今日任务</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--lite:#E3F0DC;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;--coral:#EC8A6E;--sky:#7EC8E3;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column;position:relative}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;color:var(--ink);flex-shrink:0;background:linear-gradient(180deg,#DDEBD0,var(--cream))}
+.status .icons{display:flex;gap:5px;align-items:center}
+.sig{width:17px;height:11px;background:var(--ink);border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid var(--ink);border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:var(--ink);border-radius:1.5px}
+.batt::before{content:"";position:absolute;right:-4px;top:3px;width:2px;height:5px;background:var(--ink);border-radius:0 2px 2px 0}
+.nav{height:46px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.nav .title{font-size:16.5px;font-weight:700}
+.capsule{position:absolute;right:14px;top:5px;width:88px;height:34px;border:1px solid rgba(47,59,51,.14);background:rgba(255,255,255,.85);border-radius:999px;display:flex;align-items:center;justify-content:center;gap:14px}
+.capsule i{width:17px;height:17px;border-radius:50%;border:1.6px solid var(--ink);position:relative;display:block}
+.capsule i::after{content:"";position:absolute;inset:4px;background:var(--ink);border-radius:50%}
+.dots{display:flex;gap:3px}.dots b{width:3.5px;height:3.5px;background:var(--ink);border-radius:50%}
+.content{flex:1;overflow-y:auto;padding:4px 18px 14px}
+/* 顶部问候 */
+.hello{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.hello .avatar{width:52px;height:52px;border-radius:18px;background:#fff;border:2px solid #E2EADC;display:flex;align-items:center;justify-content:center}
+.hello h2{font-size:19px;color:var(--ink)}
+.hello p{font-size:12px;color:var(--muted);margin-top:2px}
+.streak{margin-left:auto;flex-shrink:0;white-space:nowrap;display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #F3D48A;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;color:#B07708;box-shadow:0 3px 10px rgba(245,184,64,.18)}
+/* 分区标题 */
+.sec{display:flex;align-items:baseline;margin:16px 2px 10px}
+.sec h3{font-size:16.5px;font-weight:800;color:var(--ink)}
+.sec h3::before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;background:var(--green);transform:rotate(45deg);margin-right:8px;vertical-align:2px}
+.sec .more{margin-left:auto;font-size:12px;color:var(--muted)}
+/* 任务卡 */
+.tasks{background:#fff;border-radius:22px;padding:14px;border:1.5px solid #E2EADC;box-shadow:0 6px 18px rgba(60,120,80,.08)}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog .bar{flex:1;height:10px;background:#EDF2E2;border-radius:999px;overflow:hidden}
+.prog .bar i{display:block;width:33%;height:100%;border-radius:999px;background:linear-gradient(90deg,#5FBC83,#2C7A4B)}
+.prog span{font-size:12.5px;font-weight:700;color:var(--deep)}
+.task{display:flex;align-items:center;gap:12px;padding:11px 8px;border-radius:16px}
+.task + .task{border-top:1.5px dashed #EAF0DC}
+.ticon{flex-shrink:0;width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center}
+.t1{background:linear-gradient(150deg,#DFF0E2,#C6E5CF)}
+.t2{background:linear-gradient(150deg,#FFF3D6,#FFE3B0)}
+.t3{background:linear-gradient(150deg,#E0EEF9,#CBE2F5)}
+.task h4{font-size:15.5px;color:var(--ink)}
+.task p{font-size:12px;color:var(--muted);margin-top:2px}
+.go{margin-left:auto;flex-shrink:0}
+.btn-go{border:none;border-radius:999px;padding:9px 18px;font-size:13.5px;font-weight:800;background:linear-gradient(135deg,#46A86D,#2C7A4B);color:#fff;box-shadow:0 5px 12px rgba(44,122,75,.3)}
+.btn-later{border:none;border-radius:999px;padding:9px 18px;font-size:13.5px;font-weight:700;background:#EDF2E2;color:var(--deep)}
+.done-badge{margin-left:auto;flex-shrink:0;white-space:nowrap;display:flex;align-items:center;gap:4px;font-size:13px;font-weight:800;color:var(--deep)}
+.resumed{margin-left:auto;font-size:11.5px;color:#B07708;background:rgba(245,184,64,.16);border-radius:999px;padding:3px 9px;font-weight:700}
+/* 花园 */
+.garden{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,#DCEBD2 0%,#CDE6C0 55%,#B9DCAB 100%);border:1.5px solid #CFE3BE;padding:16px 16px 0;box-shadow:0 6px 18px rgba(60,120,80,.1)}
+.garden .sun{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFE091,#F5B840);box-shadow:0 0 0 7px rgba(245,184,64,.25)}
+.garden h4{font-size:15.5px;color:var(--deep)}
+.garden .desc{font-size:11.5px;color:#5F7D5A;margin-top:2px}
+.flower-chip{position:absolute;right:14px;top:52px;display:flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:800;color:#B07708;box-shadow:0 4px 10px rgba(60,120,80,.15)}
+.gscene{display:flex;align-items:flex-end;justify-content:center;gap:6px;height:118px;margin-top:8px}
+.gscene svg{display:block}
+.garden .foot{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.75);backdrop-filter:blur(4px);border-radius:14px 14px 0 0;margin:0 -16px;padding:10px 16px}
+.garden .foot p{font-size:12px;color:#4E6B49}
+.garden .foot p b{color:var(--deep)}
+.link-btn{border:none;background:var(--deep);color:#fff;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700}
+/* 快捷入口 */
+.quick{display:flex;gap:12px;margin-top:14px}
+.qcard{flex:1;position:relative;border-radius:20px;padding:14px;color:#fff;min-height:96px}
+.qcard.learn{background:linear-gradient(140deg,#5FBC83,#2C7A4B)}
+.qcard.print{background:linear-gradient(140deg,#F7C45C,#E8834A)}
+.qcard h5{font-size:16px;margin-top:8px}
+.qcard p{font-size:11px;opacity:.9;margin-top:2px}
+.qcard .ico{width:34px;height:34px;border-radius:12px;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center}
+.bubble{position:absolute;top:-14px;right:8px;background:#fff;color:#B07708;font-size:10.5px;font-weight:700;border-radius:12px 12px 12px 3px;padding:5px 9px;box-shadow:0 4px 10px rgba(60,120,80,.18)}
+/* 底部 Tab */
+.tabbar{flex-shrink:0;background:rgba(255,255,255,.94);border-top:1px solid #E8EDDB;padding:8px 10px 4px;display:flex}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:#9AA697;padding:4px 0}
+.tab.on{color:var(--deep);font-weight:800}
+.tab svg{width:26px;height:26px}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94)}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.85}
+</style>
+</head>
+<body>
+<span class="caption">02 · 首页 · 今日任务 + 成长花园（FR-A1 / A2 / A3 · 6–8 岁档）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav"><span class="title">趣狗乐学</span><span class="capsule"><span class="dots"><b></b><b></b><b></b></span><i></i></span></div>
+
+  <div class="content">
+    <div class="hello">
+      <div class="avatar">
+        <svg width="40" height="40" viewBox="0 0 60 60"><ellipse cx="30" cy="34" rx="21" ry="19" fill="#F2B56B"/><path d="M14 24 L9 10 22 17z M46 24 L51 10 38 17z" fill="#E29C55"/><ellipse cx="30" cy="41" rx="13" ry="10" fill="#FFF7EA"/><circle cx="23" cy="30" r="2.4" fill="#3A2E22"/><circle cx="37" cy="30" r="2.4" fill="#3A2E22"/><ellipse cx="30" cy="37" rx="3" ry="2.3" fill="#3A2E22"/></svg>
+      </div>
+      <div><h2>下午好，糖糖</h2><p>8月29日 周六 · 今天的任务准备好啦</p></div>
+      <div class="streak"><svg width="15" height="15" viewBox="0 0 24 24" fill="#F5A623"><path d="M12 2c1 4-3 5-3 9a5.5 5.5 0 0 0 11 0c0-3-2-4.5-3-6-.4 2-2 2.4-2 0 0-1 .4-2 .4-2S13 3 12 2z" transform="translate(-1.5 2)"/></svg>连续 5 天</div>
+    </div>
+
+    <div class="sec"><h3>今日任务</h3><span class="more">预计 10 分钟</span></div>
+    <div class="tasks">
+      <div class="prog"><div class="bar"><i></i></div><span>已完成 1 / 3</span></div>
+
+      <div class="task">
+        <div class="ticon t1"><svg width="34" height="34" viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" rx="7" fill="#fff"/><text x="20" y="26" text-anchor="middle" font-size="14" font-weight="800" fill="#2C7A4B">＋</text></svg></div>
+        <div><h4>口算闯关</h4><p>20 以内加减 · 已到第 4 题</p></div>
+        <span class="resumed">继续</span>
+      </div>
+
+      <div class="task">
+        <div class="ticon t2"><svg width="34" height="34" viewBox="0 0 40 40"><rect x="7" y="8" width="26" height="24" rx="5" fill="#fff"/><path d="M12 16 l4-4 4 4 M22 24 l4-4 4 4" stroke="#E8834A" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></div>
+        <div><h4>英语翻翻乐</h4><p>单词配对 · 4 对卡片</p></div>
+        <span class="go"><button class="btn-go">开始</button></span>
+      </div>
+
+      <div class="task">
+        <div class="ticon t3"><svg width="34" height="34" viewBox="0 0 40 40"><rect x="9" y="6" width="22" height="28" rx="4" fill="#fff"/><text x="20" y="20" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4A7FA8">春眠</text><text x="20" y="30" text-anchor="middle" font-size="8.5" font-weight="700" fill="#4A7FA8">不觉晓</text></svg></div>
+        <div><h4>古诗翻翻乐</h4><p>《春晓》诗句配对 · 对 4 错 0</p></div>
+        <span class="done-badge"><svg width="17" height="17" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#3D9A63"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>已完成</span>
+      </div>
+    </div>
+
+    <div class="sec"><h3>成长花园</h3><span class="more">答对一题长一点</span></div>
+    <div class="garden">
+      <span class="sun"></span>
+      <h4>我的小花园</h4>
+      <div class="desc">口算答对 3 题，种子长高啦</div>
+      <div class="flower-chip">
+        <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="#E8834A"/><g fill="#F5B840"><ellipse cx="12" cy="4.5" rx="3.4" ry="4.5"/><ellipse cx="12" cy="19.5" rx="3.4" ry="4.5"/><ellipse cx="4.5" cy="12" rx="4.5" ry="3.4"/><ellipse cx="19.5" cy="12" rx="4.5" ry="3.4"/></g></svg>
+        12 朵
+      </div>
+      <div class="gscene">
+        <svg width="52" height="70" viewBox="0 0 52 70"><path d="M26 66 V34 M26 46 q-12-4-14-16 M26 42 q12-4 14-14" stroke="#4E8F5B" stroke-width="3.4" fill="none" stroke-linecap="round"/><ellipse cx="10" cy="28" rx="9" ry="5.5" fill="#6FBF7E" transform="rotate(-32 10 28)"/><ellipse cx="42" cy="26" rx="9" ry="5.5" fill="#6FBF7E" transform="rotate(30 42 26)"/><ellipse cx="26" cy="30" rx="8" ry="10" fill="#8FD09A"/></svg>
+        <svg width="64" height="86" viewBox="0 0 64 86"><path d="M32 82 V40 M32 58 q-14-5-16-20 M32 54 q14-5 16-18" stroke="#4E8F5B" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="13" cy="35" rx="11" ry="7" fill="#5FAE6E" transform="rotate(-35 13 35)"/><ellipse cx="51" cy="33" rx="11" ry="7" fill="#5FAE6E" transform="rotate(32 51 33)"/><circle cx="32" cy="26" r="9" fill="#F5B840"/><g fill="#F5B840"><ellipse cx="32" cy="12" rx="5" ry="7"/><ellipse cx="20" cy="26" rx="7" ry="5"/><ellipse cx="44" cy="26" rx="7" ry="5"/></g><circle cx="32" cy="26" r="4" fill="#E8834A"/></svg>
+        <svg width="46" height="58" viewBox="0 0 46 58"><path d="M23 54 V28 M23 40 q-10-3-12-13" stroke="#4E8F5B" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="9" cy="25" rx="8" ry="5" fill="#8FD09A" transform="rotate(-30 9 25)"/><ellipse cx="23" cy="24" rx="6" ry="8" fill="#A8DCAF"/></svg>
+      </div>
+      <div class="foot">
+        <p>集满 <b>10 朵花</b> 可以领一位 <b>花园小伙伴</b></p>
+        <button class="link-btn">去兑换</button>
+      </div>
+    </div>
+
+    <div class="quick">
+      <div class="qcard learn">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M4 15a8 8 0 1 1 16 0"/><path d="M4 15v3a2 2 0 0 0 2 2h1v-6H6a2 2 0 0 0-2 2z" fill="#fff"/><path d="M20 15v3a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2z" fill="#fff"/></svg></div>
+        <h5>学习乐园</h5><p>更多玩法随便玩</p>
+      </div>
+      <div class="qcard print">
+        <div class="bubble">今天的纸质练习单印好了吗？</div>
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="3" width="12" height="6" rx="1.5"/><rect x="4" y="9" width="16" height="7" rx="2" fill="#fff" stroke="none"/><rect x="7" y="13" width="10" height="8" rx="1.5" fill="#fff" stroke="#fff"/><path d="M17 12h.01" stroke="#E8834A"/></svg></div>
+        <h5>每日一练</h5><p>打印小铺 · 已帮你选好模板</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11 12 4l8 7v8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M10 20v-5h4v5"/></svg>首页</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 10.5h.01M15.5 10.5h.01M8.5 15c1 1.2 2.3 1.8 3.5 1.8s2.5-.6 3.5-1.8"/></svg>学习乐园</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 8V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5V8"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 13h8v7H8z" fill="currentColor" stroke="none" opacity=".18"/><path d="M8 13h8v7H8z"/></svg>打印小铺</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5"/></svg>个人中心</div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

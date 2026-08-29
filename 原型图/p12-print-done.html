@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>12 · 打印 · 生成完成</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;display:flex;flex-direction:column;position:relative;
+  background:radial-gradient(ellipse 85% 40% at 50% 0%,#E9F4DC 0%,transparent 55%),linear-gradient(180deg,#F3F8E6,#F7F9EE)}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.content{flex:1;display:flex;flex-direction:column;padding:4px 20px 18px;position:relative;overflow:hidden}
+.confetti{position:absolute;top:0;left:0;right:0;height:240px;pointer-events:none}
+.confetti i{position:absolute;border-radius:3px;opacity:.85}
+.c1{width:8px;height:13px;background:#F5B840;left:16%;top:48px;transform:rotate(22deg)}
+.c2{width:7px;height:7px;background:#6FBF7E;left:30%;top:100px;border-radius:50%}
+.c3{width:8px;height:12px;background:#EC8A6E;left:78%;top:56px;transform:rotate(38deg)}
+.c4{width:7px;height:10px;background:#7EC8E3;left:86%;top:120px;transform:rotate(-28deg)}
+.c5{width:8px;height:8px;background:#F2A0B5;left:60%;top:30px;border-radius:50%}
+/* 成功头 */
+.done-head{text-align:center;margin-top:20px;position:relative}
+.done-head .badge-ok{width:66px;height:66px;margin:0 auto;border-radius:50%;background:linear-gradient(135deg,#46A86D,#2C7A4B);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(44,122,75,.35)}
+.done-head h1{font-size:23px;color:var(--deep);margin-top:14px}
+.done-head p{font-size:13px;color:var(--muted);margin-top:5px}
+/* 文件卡 */
+.file{margin-top:18px;background:#fff;border:1.5px solid #E2EADC;border-radius:20px;padding:14px;display:flex;gap:14px;align-items:center;box-shadow:0 6px 18px rgba(60,120,80,.1)}
+.file .thumb{flex-shrink:0;width:64px;height:82px;background:#fff;border:1.5px solid #E6E9DC;border-radius:5px;box-shadow:0 4px 10px rgba(60,120,80,.16);padding:8px 7px}
+.file .thumb .hd{height:5px;width:60%;border-radius:3px;background:#D9E8CF;margin-bottom:7px}
+.file .thumb .ln{height:4px;border-radius:2px;background:#E9F0DE;margin-bottom:6px}
+.file .info{flex:1}
+.file .info h5{font-size:15px;word-break:break-all}
+.file .info .meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.file .info .meta span{font-size:10.5px;background:#EFF6E4;color:#5F7D5A;border-radius:999px;padding:2.5px 9px;font-weight:600}
+/* 动作 */
+.actions{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.act{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #E2EADC;border-radius:18px;padding:13px 16px;box-shadow:0 4px 12px rgba(60,120,80,.07)}
+.act .ic{flex-shrink:0;width:44px;height:44px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+.a1{background:linear-gradient(150deg,#DFF0E2,#C6E5CF)}
+.a2{background:linear-gradient(150deg,#DFF0E2,#C6E5CF)}
+.a3{background:linear-gradient(150deg,#FFF3D6,#FFE3B0)}
+.act h5{font-size:15px}
+.act p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.act .chev{margin-left:auto;color:#C9D4BE;font-size:20px}
+.act.primary{background:linear-gradient(135deg,#46A86D,#2C7A4B);border:none;color:#fff;box-shadow:0 8px 20px rgba(44,122,75,.3)}
+.act.primary h5{font-size:16px}
+.act.primary p{color:rgba(255,255,255,.85)}
+.act.primary .chev{color:rgba(255,255,255,.7)}
+.act.primary .ic{background:rgba(255,255,255,.2)}
+/* 底部提示 */
+.foot-tip{margin-top:auto;text-align:center;font-size:11.5px;color:var(--muted);line-height:1.7}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+</style>
+</head>
+<body>
+<span class="caption">12 · 打印 · 生成完成（FR-C4 · 保存 / 转发 / 去打印店，记录埋点验证打印假设 H3）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+
+  <div class="content">
+    <div class="confetti"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i></div>
+
+    <div class="done-head">
+      <div class="badge-ok"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M5.5 12.5l4.5 4.5 8.5-9.5" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h1>练习单印好啦！</h1>
+      <p>生成用时 2.8 秒 · 妈妈手机上也收到一份吧</p>
+    </div>
+
+    <div class="file">
+      <div class="thumb">
+        <div class="hd"></div>
+        <div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div>
+      </div>
+      <div class="info">
+        <h5>口算题卡_20以内减法_50题.pdf</h5>
+        <div class="meta"><span>A4 · 3 页</span><span>1.2 MB</span><span>2026-08-29</span></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <div class="act primary">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 4v10M12 14l-4-4M12 14l4-4"/><path d="M5 18h14"/></svg></div>
+        <div><h5>保存到手机</h5><p>存到文件或相册，连打印机直接印</p></div>
+        <span class="chev">›</span>
+      </div>
+      <div class="act">
+        <div class="ic a2"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2C7A4B" stroke-width="2" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L4 21l1.6-4.2A8.5 8.5 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-linecap="round" stroke-width="2.6"/></svg></div>
+        <div><h5>转发给微信好友</h5><p>发给自己 / 家人 / 家长群都行</p></div>
+        <span class="chev">›</span>
+      </div>
+      <div class="act">
+        <div class="ic a3"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B07708" stroke-width="2" stroke-linecap="round"><path d="M5 12l7-8 7 8M6 10v9h12v-9" stroke-linejoin="round"/></svg></div>
+        <div><h5>附近打印店</h5><p>家里没打印机？跳转打印店小程序</p></div>
+        <span class="chev">›</span>
+      </div>
+    </div>
+
+    <div class="foot-tip">印好后让孩子用铅笔写在纸上吧<br>写完拍照上传（P1 教材同步），还能让趣趣批改哦</div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

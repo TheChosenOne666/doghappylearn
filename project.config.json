@@ -1,0 +1,15 @@
+{
+  "miniprogramRoot": "client/dist/",
+  "cloudfunctionRoot": "cloud/functions/",
+  "projectname": "dog-happylearn",
+  "description": "《趣狗乐学》儿童学习小程序",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "enhance": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

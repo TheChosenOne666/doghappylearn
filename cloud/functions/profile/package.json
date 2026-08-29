@@ -1,0 +1,10 @@
+{
+  "name": "fn-profile",
+  "version": "0.1.0",
+  "private": true,
+  "description": "档案读写与首页聚合（FR-B3/B4/B5、FR-N1）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

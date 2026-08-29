@@ -1,0 +1,10 @@
+{
+  "name": "fn-task",
+  "version": "0.1.0",
+  "private": true,
+  "description": "今日任务生成与单局成绩提交事务（FR-A1/G1/G2）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

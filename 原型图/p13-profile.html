@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>13 · 个人中心</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.nav{height:46px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.nav .title{font-size:16.5px;font-weight:700}
+.capsule{position:absolute;right:14px;top:5px;width:88px;height:34px;border:1px solid rgba(47,59,51,.14);background:rgba(255,255,255,.85);border-radius:999px;display:flex;align-items:center;justify-content:center;gap:14px}
+.capsule i{width:17px;height:17px;border-radius:50%;border:1.6px solid var(--ink);position:relative;display:block}
+.capsule i::after{content:"";position:absolute;inset:4px;background:var(--ink);border-radius:50%}
+.dots{display:flex;gap:3px}.dots b{width:3.5px;height:3.5px;background:var(--ink);border-radius:50%}
+.content{flex:1;overflow-y:auto;padding:4px 18px 14px}
+/* 档案头卡 */
+.profile{background:linear-gradient(150deg,#57B47E,#2C7A4B);border-radius:24px;padding:18px;color:#fff;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(44,122,75,.28)}
+.profile .top{display:flex;align-items:center;gap:14px}
+.profile .avatar{flex-shrink:0;width:56px;height:56px;border-radius:20px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center}
+.profile h3{font-size:18px}
+.profile .tags{display:flex;gap:6px;margin-top:5px}
+.profile .tags span{font-size:10.5px;background:rgba(255,255,255,.2);border-radius:999px;padding:2.5px 9px}
+.profile .edit{position:absolute;top:16px;right:16px;font-size:12px;background:rgba(255,255,255,.2);border-radius:999px;padding:4px 12px}
+.profile .stats{display:flex;margin-top:16px;background:rgba(255,255,255,.14);border-radius:16px;padding:11px 0}
+.profile .st{flex:1;text-align:center;position:relative}
+.profile .st + .st::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:rgba(255,255,255,.25)}
+.profile .st b{font-size:19px;font-weight:900}
+.profile .st span{display:block;font-size:10.5px;opacity:.85;margin-top:2px}
+.profile .dog{position:absolute;right:14px;bottom:52px;opacity:.35}
+/* 功能组 */
+.group{background:#fff;border:1.5px solid #E2EADC;border-radius:20px;margin-top:14px;overflow:hidden;box-shadow:0 5px 16px rgba(60,120,80,.07)}
+.rowitem{display:flex;align-items:center;gap:13px;padding:14px 16px}
+.rowitem + .rowitem{border-top:1px solid #F0F4E6}
+.rowitem .ic{flex-shrink:0;width:38px;height:38px;border-radius:13px;display:flex;align-items:center;justify-content:center}
+.i1{background:#DFF0E2}.i2{background:#FFF3D6}.i3{background:#E0EEF9}.i4{background:#FBE9E3}.i5{background:#F1EBF9}.i6{background:#EDF2E2}
+.rowitem h5{font-size:14.5px}
+.rowitem p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.rowitem .chev{margin-left:auto;color:#C9D4BE;font-size:19px}
+.rowitem .corner{margin-left:auto;display:flex;align-items:center;gap:8px}
+.rowitem .corner .val{font-size:12.5px;color:var(--muted);font-weight:600}
+.rowitem .badge-p1{font-size:9.5px;background:rgba(245,184,64,.2);color:#9a6a10;border-radius:999px;padding:2px 7px;font-weight:800}
+/* 提示条 */
+.trust{margin-top:14px;display:flex;gap:10px;align-items:flex-start;background:#EFF6E4;border-radius:16px;padding:12px 14px;font-size:11.5px;color:#5F7D5A;line-height:1.6}
+.trust svg{flex-shrink:0;margin-top:2px}
+.tabbar{flex-shrink:0;background:rgba(255,255,255,.94);border-top:1px solid #E8EDDB;padding:8px 10px 4px;display:flex}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:#9AA697;padding:4px 0}
+.tab.on{color:var(--deep);font-weight:800}
+.tab svg{width:26px;height:26px}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.94)}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.85}
+</style>
+</head>
+<body>
+<span class="caption">13 · 个人中心（轻量聚合 · 无角色门禁 · 家长孩子共用）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav"><span class="title">个人中心</span><span class="capsule"><span class="dots"><b></b><b></b><b></b></span><i></i></span></div>
+
+  <div class="content">
+    <div class="profile">
+      <span class="edit">编辑</span>
+      <div class="top">
+        <div class="avatar">
+          <svg width="36" height="36" viewBox="0 0 60 60"><ellipse cx="30" cy="34" rx="21" ry="19" fill="#F7C894"/><path d="M14 24 L9 10 22 17z M46 24 L51 10 38 17z" fill="#EBB87E"/><ellipse cx="30" cy="41" rx="13" ry="10" fill="#FFF7EA"/><circle cx="23" cy="30" r="2.4" fill="#3A2E22"/><circle cx="37" cy="30" r="2.4" fill="#3A2E22"/><ellipse cx="30" cy="37" rx="3" ry="2.3" fill="#3A2E22"/></svg>
+        </div>
+        <div>
+          <h3>糖糖的小书房</h3>
+          <div class="tags"><span>小学低年级 · 一年级</span><span>20 以内加减 · L2</span></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="st"><b>6</b><span>连续打卡</span></div>
+        <div class="st"><b>24</b><span>累计打卡</span></div>
+        <div class="st"><b>12 朵</b><span>花园花朵</span></div>
+        <div class="st"><b>9 张</b><span>已印练习单</span></div>
+      </div>
+      <svg class="dog" width="90" height="70" viewBox="0 0 88 70"><ellipse cx="46" cy="36" rx="26" ry="21" fill="rgba(255,255,255,.5)"/><path d="M24 26 L18 10 32 16z M68 26 L74 10 60 16z" fill="rgba(255,255,255,.5)"/><circle cx="38" cy="32" r="2.4" fill="#2C5A3C"/><circle cx="54" cy="32" r="2.4" fill="#2C5A3C"/></svg>
+    </div>
+
+    <div class="group">
+      <div class="rowitem">
+        <div class="ic i1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C7A4B" stroke-width="2" stroke-linecap="round"><path d="M5 20h14M7 16v-5M12 16V7M17 16v-8"/></svg></div>
+        <div><h5>学习报告</h5><p>今天学了什么 · 答对率 · 薄弱点</p></div>
+        <span class="chev">›</span>
+      </div>
+      <div class="rowitem">
+        <div class="ic i2"><svg width="20" height="20" viewBox="0 0 24 24" fill="#B07708"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg></div>
+        <div><h5>打卡记录</h5><p>本月已打卡 12 天 · 不设补卡</p></div>
+        <span class="chev">›</span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="rowitem">
+        <div class="ic i3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4A7FA8" stroke-width="2" stroke-linecap="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg></div>
+        <div><h5>提醒设置</h5><p>每天 19:30 提醒「今天学习了吗」</p></div>
+        <span class="corner"><span class="val">已开启</span><span class="chev">›</span></span>
+      </div>
+      <div class="rowitem">
+        <div class="ic i4"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C05B2E" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="7.5"/><path d="M12 10v3.5l2.5 2M9.5 3h5"/></svg></div>
+        <div><h5>防沉迷时长</h5><p>每天最多玩 15 分钟，到点趣趣说晚安</p></div>
+        <span class="corner"><span class="val">15 分钟</span><span class="chev">›</span></span>
+      </div>
+      <div class="rowitem">
+        <div class="ic i5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B6BB8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 20c1-3.2 3.5-4.8 6.5-4.8s5.5 1.6 6.5 4.8"/></svg></div>
+        <div><h5>孩子档案</h5><p>年龄 / 教材版本 / 多孩切换</p></div>
+        <span class="corner"><span class="badge-p1">P1</span><span class="chev">›</span></span>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="rowitem">
+        <div class="ic i6"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C7A4B" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4.5" stroke-linecap="round"/></svg></div>
+        <div><h5>隐私政策</h5><p>不收集孩子姓名、照片与定位</p></div>
+        <span class="chev">›</span>
+      </div>
+    </div>
+
+    <div class="trust">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D9A63" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11.5V16"/></svg>
+      <span>这里没有密码锁、也没有角色切换——家长看得见的，孩子也看得见。学习数据只用于生成报告与练习，绝不对外提供。</span>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11 12 4l8 7v8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M10 20v-5h4v5"/></svg>首页</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 10.5h.01M15.5 10.5h.01M8.5 15c1 1.2 2.3 1.8 3.5 1.8s2.5-.6 3.5-1.8"/></svg>学习乐园</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 8V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5V8"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 13h8v7H8z" fill="currentColor" stroke="none" opacity=".18"/><path d="M8 13h8v7H8z"/></svg>打印小铺</div>
+    <div class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5"/></svg>个人中心</div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

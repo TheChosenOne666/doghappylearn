@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>08 · 学习报告</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;--coral:#EC8A6E;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.nav{height:46px;display:flex;align-items:center;padding:0 14px;position:relative;flex-shrink:0}
+.nav .back{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(60,120,80,.12)}
+.nav .title{position:absolute;left:50%;transform:translateX(-50%);font-size:16.5px;font-weight:700}
+.content{flex:1;overflow-y:auto;padding:2px 18px 18px}
+/* 头部大数字 */
+.hero{background:linear-gradient(150deg,#57B47E,#2C7A4B);border-radius:24px;padding:20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(44,122,75,.28)}
+.hero .date{font-size:12px;opacity:.85}
+.hero h2{font-size:19px;margin-top:4px}
+.hero .nums{display:flex;margin-top:16px;padding-right:74px}
+.hero .n{flex:1}
+.hero .n b{font-size:30px;font-weight:900}
+.hero .n b small{font-size:13px;font-weight:700;opacity:.85;margin-left:2px}
+.hero .n span{display:block;font-size:11.5px;opacity:.82;margin-top:2px}
+.hero .dog{position:absolute;right:8px;bottom:2px}
+/* 各科 */
+.sec{margin:18px 2px 10px;font-size:16px;font-weight:800;display:flex;align-items:baseline}
+.sec::before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;background:var(--green);transform:rotate(45deg);margin-right:8px;vertical-align:2px}
+.sec small{margin-left:auto;font-size:11.5px;font-weight:400;color:var(--muted)}
+.card{background:#fff;border:1.5px solid #E2EADC;border-radius:20px;padding:16px;box-shadow:0 5px 16px rgba(60,120,80,.08)}
+.subj{display:flex;align-items:center;gap:12px;padding:9px 0}
+.subj + .subj{border-top:1.5px dashed #EAF0DC}
+.subj .ic{flex-shrink:0;width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800}
+.s1{background:#DFF0E2;color:var(--deep)}
+.s2{background:#FFF3D6;color:#B07708}
+.s3{background:#E0EEF9;color:#4A7FA8}
+.subj .info{flex:1}
+.subj h5{font-size:14.5px}
+.subj .bar{height:8px;background:#EDF2E2;border-radius:999px;margin-top:6px;overflow:hidden}
+.subj .bar i{display:block;height:100%;border-radius:999px}
+.subj .right{text-align:right;flex-shrink:0}
+.subj .right b{font-size:16px;color:var(--ink)}
+.subj .right span{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}
+/* 薄弱点 */
+.weak{margin-top:12px;background:#FFF4EE;border:1.5px solid #F5CDB9;border-radius:18px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.weak .bulb{flex-shrink:0;width:36px;height:36px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.weak h5{font-size:14px;color:#C05B2E}
+.weak p{font-size:12.5px;color:#8A6350;margin-top:3px;line-height:1.6}
+.weak p b{color:#C05B2E}
+/* 打卡行 */
+.checkin-row{margin-top:12px;display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid #E2EADC;border-radius:18px;padding:13px 16px;box-shadow:0 4px 12px rgba(60,120,80,.07)}
+.checkin-row .flame{width:38px;height:38px;border-radius:13px;background:linear-gradient(150deg,#FFF3D6,#FFE3B0);display:flex;align-items:center;justify-content:center}
+.checkin-row h5{font-size:14px}
+.checkin-row p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.checkin-row .chev{margin-left:auto;color:#C9D4BE;font-size:20px}
+/* 底部按钮区 */
+.bottom{flex-shrink:0;padding:12px 18px 6px;background:linear-gradient(180deg,rgba(247,249,238,0),var(--cream) 40%)}
+.btn-print{display:flex;align-items:center;justify-content:center;gap:9px;height:56px;border:none;border-radius:999px;background:linear-gradient(135deg,#F7C45C,#E8834A);color:#fff;font-size:17px;font-weight:800;letter-spacing:.04em;box-shadow:0 10px 22px rgba(232,131,74,.35)}
+.btn-print small{font-size:11px;font-weight:600;opacity:.9}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+</style>
+</head>
+<body>
+<span class="caption">08 · 学习报告（FR-B1 · P0：各科完成题数 / 答对率 / 连续打卡 · 面向家长阅读习惯）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav">
+    <div class="back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F3B33" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <span class="title">学习报告</span>
+  </div>
+
+  <div class="content">
+    <div class="hero">
+      <div class="date">8月29日 · 周六 · 用时 9 分 42 秒</div>
+      <h2>糖糖今天的表现</h2>
+      <div class="nums">
+        <div class="n"><b>28<small>题</small></b><span>今日完成</span></div>
+        <div class="n"><b>92<small>%</small></b><span>答对率</span></div>
+        <div class="n"><b>6<small>天</small></b><span>连续打卡</span></div>
+      </div>
+      <svg class="dog" width="72" height="57" viewBox="0 0 88 70">
+        <ellipse cx="46" cy="36" rx="26" ry="21" fill="rgba(255,255,255,.28)"/>
+        <path d="M24 26 L18 10 32 16z M68 26 L74 10 60 16z" fill="#F7C894"/>
+        <ellipse cx="46" cy="36" rx="26" ry="21" fill="#F7C894"/>
+        <ellipse cx="46" cy="43" rx="15" ry="10" fill="#fff"/>
+        <circle cx="38" cy="32" r="2.4" fill="#3A2E22"/><circle cx="54" cy="32" r="2.4" fill="#3A2E22"/>
+        <ellipse cx="46" cy="38" rx="2.8" ry="2" fill="#3A2E22"/>
+      </svg>
+    </div>
+
+    <div class="sec">今日学了什么<small>按科目统计</small></div>
+    <div class="card">
+      <div class="subj">
+        <div class="ic s1">＋</div>
+        <div class="info"><h5>口算 · 20 以内加减</h5><div class="bar"><i style="width:92%;background:linear-gradient(90deg,#8FD09A,#2C7A4B)"></i></div></div>
+        <div class="right"><b>12/13</b><span>答对题数</span></div>
+      </div>
+      <div class="subj">
+        <div class="ic s2">英</div>
+        <div class="info"><h5>英语 · 单词配对</h5><div class="bar"><i style="width:100%;background:linear-gradient(90deg,#FFD98A,#E8A23A)"></i></div></div>
+        <div class="right"><b>8/8</b><span>全部配对</span></div>
+      </div>
+      <div class="subj">
+        <div class="ic s3">诗</div>
+        <div class="info"><h5>古诗 ·《春晓》翻翻乐</h5><div class="bar"><i style="width:86%;background:linear-gradient(90deg,#A9CFEA,#5B93BE)"></i></div></div>
+        <div class="right"><b>6/7</b><span>诗句配对</span></div>
+      </div>
+    </div>
+
+    <div class="weak">
+      <div class="bulb"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#EC8A6E" stroke-width="2" stroke-linecap="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 4 10.5c-.8.7-1 1.5-1 2.5h-6c0-1-.2-1.8-1-2.5A6 6 0 0 1 12 3z"/></svg></div>
+      <div>
+        <h5>需要多练一点点</h5>
+        <p><b>20 以内退位减法</b>错了 2 题（13－8、12－9），<br>已按这个薄弱点预填了今日练习单</p>
+      </div>
+    </div>
+
+    <div class="checkin-row">
+      <div class="flame"><svg width="19" height="19" viewBox="0 0 24 24" fill="#F5A623"><path d="M12 2c1 4-3 5-3 9a5.5 5.5 0 0 0 11 0c0-3-2-4.5-3-6-.4 2-2 2.4-2 0 0-1 .4-2 .4-2S13 3 12 2z" transform="translate(-2.5 2)"/></svg></div>
+      <div><h5>连续打卡 6 天</h5><p>打卡日历 · 再 1 天达成 7 天小勇士</p></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <button class="btn-print">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M7 8V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5V8"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 13h8v7H8z" fill="#fff"/></svg>
+      打印今日练习单 <small>已按薄弱点预填 · 20 以内减法</small>
+    </button>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

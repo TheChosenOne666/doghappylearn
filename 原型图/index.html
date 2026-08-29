@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>趣狗乐学 · UI 原型图索引</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F5F7EA;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:
+ radial-gradient(ellipse 50% 30% at 15% 0%,rgba(61,154,99,.10),transparent),
+ radial-gradient(ellipse 45% 30% at 90% 10%,rgba(245,184,64,.10),transparent),#EDF1DE;
+ color:var(--ink);padding:56px 24px;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto}
+.kicker{display:inline-block;font-size:13px;font-weight:700;color:var(--deep);border:1.5px solid var(--green);border-radius:999px;padding:4px 16px;letter-spacing:.1em;margin-bottom:16px}
+h1{font-size:32px;margin-bottom:6px}
+.sub{color:var(--muted);font-size:15px;margin-bottom:36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+a.item{display:flex;gap:14px;align-items:flex-start;text-decoration:none;color:var(--ink);background:#fff;border:1.5px solid #E2EADC;border-radius:18px;padding:18px 20px;box-shadow:0 4px 16px rgba(60,120,80,.07);transition:.15s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(60,120,80,.14);border-color:var(--green)}
+.num{flex-shrink:0;width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--green),var(--deep));color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+a.item h3{font-size:16px;margin-bottom:3px}
+a.item p{font-size:13px;color:var(--muted);line-height:1.55}
+.tag{display:inline-block;font-size:11px;background:rgba(245,184,64,.18);color:#9a6a10;border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+footer{margin-top:44px;color:var(--muted);font-size:13px;border-top:1.5px dashed #D5DEc4;padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="kicker">QU GOU LE XUE · 原型图 v1.0</span>
+  <h1>趣狗乐学 · 小程序 UI 原型图</h1>
+  <p class="sub">4–8 岁游戏化学习 + 可打印纸质练习 · 浅绿童趣风 · 每页独立 HTML，点击卡片查看</p>
+  <div class="grid">
+    <a class="item" href="p01-age-select.html"><span class="num">01</span><span><h3>首次引导 · 选择年龄</h3><p>两张大卡片选龄段，30 秒内玩到第一题，无强制授权</p></span></a>
+    <a class="item" href="p02-home.html"><span class="num">02</span><span><h3>首页 · 今日任务</h3><p>今日 3 任务 + 成长花园 + 每日一练快捷入口<span class="tag">P0</span></p></span></a>
+    <a class="item" href="p03-checkin-success.html"><span class="num">03</span><span><h3>打卡成功庆祝页</h3><p>3 任务完成瞬间弹出，顺带引导订阅提醒</p></span></a>
+    <a class="item" href="p04a-learn-park-girl.html"><span class="num">04A</span><span><h3>学习乐园</h3><p>游戏库 + 成就徽章 + AI 认知乐园 + 教材同步入口</p></span></a>
+    <a class="item" href="p05-game-oral.html"><span class="num">05</span><span><h3>口算闯关（游戏中）</h3><p>大字号算式 + 大按钮数字键盘，答对花园成长<span class="tag">P0</span></p></span></a>
+    <a class="item" href="p06-game-memory.html"><span class="num">06</span><span><h3>卡片翻翻乐（游戏中）</h3><p>拼音/古诗/英语记忆配对，低龄提示模式<span class="tag">P0</span></p></span></a>
+    <a class="item" href="p07a-garden-girl.html"><span class="num">07</span><span><h3>成长花园 · 兑换</h3><p>花朵余额兑换宠物与场景，只做正向激励</p></span></a>
+    <a class="item" href="p08-report.html"><span class="num">08</span><span><h3>学习报告</h3><p>今日所学 / 答对率 / 薄弱点 + 打印今日练习单</p></span></a>
+    <a class="item" href="p09-checkin-calendar.html"><span class="num">09</span><span><h3>打卡记录</h3><p>月历小狗脚印 + 连续打卡里程碑，不设补卡</p></span></a>
+    <a class="item" href="p10-print-templates.html"><span class="num">10</span><span><h3>打印小铺 · 选模板</h3><p>口算题卡 / 识字卡大图预览，差异化核心<span class="tag">P0</span></p></span></a>
+    <a class="item" href="p11-print-params.html"><span class="num">11</span><span><h3>打印 · 参数与预览</h3><p>大按钮分段选择器，A4 分页预览，即开即用</p></span></a>
+    <a class="item" href="p12-print-done.html"><span class="num">12</span><span><h3>打印 · 生成完成</h3><p>保存本地 / 转发微信 / 去打印店三动作</p></span></a>
+    <a class="item" href="p13-profile.html"><span class="num">13</span><span><h3>个人中心</h3><p>轻量聚合页，无角色门禁，家长孩子共用</p></span></a>
+    <a class="item" href="p14-settings.html"><span class="num">14</span><span><h3>提醒与防沉迷设置</h3><p>每日提醒时间 + 时长上限，家长可控<span class="tag">P0</span></p></span></a>
+  </div>
+  <footer>设计说明：390×844 手机画框 · 主色 #3D9A63 浅绿系 · 全页面含状态栏 / 胶囊按钮 / 底部 Tab（一级页）· 图形均为手绘 SVG，无位图依赖，浏览器直接打开即可浏览。</footer>
+</div>
+</body>
+</html>

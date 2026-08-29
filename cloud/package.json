@@ -1,0 +1,10 @@
+{
+  "name": "cloud",
+  "version": "0.1.0",
+  "private": true,
+  "description": "《趣狗乐学》云函数部署链路（CloudBase CLI）",
+  "scripts": {
+    "deploy": "node deploy.mjs",
+    "smoke:pdfkit": "cd functions/print && node pdfkit-smoke.js"
+  }
+}

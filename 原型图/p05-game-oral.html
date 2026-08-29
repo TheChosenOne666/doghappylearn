@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>05 · 口算闯关（游戏中）</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;display:flex;flex-direction:column;position:relative;
+  background:linear-gradient(180deg,#E9F3DC 0%,#F4F8E8 34%,#F7F9EE 100%)}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.gnav{height:46px;display:flex;align-items:center;padding:0 16px;position:relative;flex-shrink:0}
+.gnav .back{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(60,120,80,.12)}
+.gnav .lv{margin:0 auto;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--deep)}
+.gnav .lv .pill{background:#fff;border-radius:999px;padding:4px 12px;font-size:12px;box-shadow:0 2px 8px rgba(60,120,80,.1)}
+.content{flex:1;display:flex;flex-direction:column;padding:2px 20px 12px;position:relative}
+/* 进度星星 */
+.stars{display:flex;justify-content:center;gap:7px;margin:4px 0 2px}
+.stars span{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.stars .on{background:#F5B840;box-shadow:0 3px 8px rgba(245,184,64,.4)}
+.stars .cur{background:#fff;border:2px dashed #E8C878}
+.stars .off{background:#EDF2E2}
+/* 算式 */
+.board{margin-top:16px;background:#fff;border-radius:26px;padding:30px 20px 24px;text-align:center;position:relative;box-shadow:0 10px 26px rgba(60,120,80,.12);border:1.5px solid #E2EADC}
+.board .q{font-size:56px;font-weight:900;color:var(--ink);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.board .q .qm{color:#E8834A}
+.board .hint{margin-top:6px;font-size:12.5px;color:var(--muted)}
+/* 花园成长条 */
+.grow{margin-top:14px;display:flex;align-items:center;gap:10px;background:#EFF6E4;border-radius:16px;padding:10px 14px}
+.grow svg{flex-shrink:0}
+.grow .track{flex:1;height:10px;background:#DDE9CB;border-radius:999px;overflow:hidden}
+.grow .track i{display:block;width:70%;height:100%;background:linear-gradient(90deg,#8FD09A,#3D9A63);border-radius:999px}
+.grow .txt{font-size:12px;font-weight:700;color:var(--deep);flex-shrink:0}
+/* 数字键盘 */
+.pad{margin-top:auto}
+.pad .row{display:flex;gap:10px;margin-bottom:10px}
+.key{flex:1;height:60px;border:none;border-radius:18px;background:#fff;font-size:26px;font-weight:800;color:var(--ink);box-shadow:0 5px 0 #DCE5C8,0 8px 14px rgba(60,120,80,.08)}
+.key.op{background:#EDF2E2;color:var(--deep);font-size:20px}
+.key.ok{background:linear-gradient(135deg,#46A86D,#2C7A4B);color:#fff;box-shadow:0 5px 0 #1E5C3A,0 8px 16px rgba(44,122,75,.3);font-size:19px;letter-spacing:.1em}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+/* 星星粒子 */
+.spark{position:absolute;width:34px;height:34px;top:118px;right:44px}
+</style>
+</head>
+<body>
+<span class="caption">05 · 口算闯关 · 游戏中（FR-G1 · 不限时 · 答对触发花园成长）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="gnav">
+    <div class="back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F3B33" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <div class="lv">口算闯关 <span class="pill">L2 · 20 以内</span></div>
+  </div>
+
+  <div class="content">
+    <div class="stars">
+      <span class="on"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+      <span class="on"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+      <span class="on"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+      <span class="cur"><svg width="14" height="14" viewBox="0 0 24 24" fill="#F5B840"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+      <span class="off"><svg width="14" height="14" viewBox="0 0 24 24" fill="#C9D4BE"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+      <span class="off"><svg width="14" height="14" viewBox="0 0 24 24" fill="#C9D4BE"><path d="M12 2l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8z"/></svg></span>
+    </div>
+
+    <div class="board">
+      <svg class="spark" viewBox="0 0 40 40"><path d="M20 2l3.4 9.2L33 14l-7.4 5.6L28 30l-8-5-8 5 2.4-10.4L7 14l9.6-2.8z" fill="#F5B840" opacity=".9"/></svg>
+      <div class="q">8 + 6 = <span class="qm">14</span></div>
+      <div class="hint">答对啦！种子喝饱水，又长高了一点</div>
+    </div>
+
+    <div class="grow">
+      <svg width="26" height="30" viewBox="0 0 26 30"><path d="M13 28 V14 M13 19 q-6-2-7-9 M13 17 q6-2 7-8" stroke="#4E8F5B" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="4.5" cy="8.5" rx="4.5" ry="3" fill="#6FBF7E" transform="rotate(-32 4.5 8.5)"/><ellipse cx="21.5" cy="7.5" rx="4.5" ry="3" fill="#6FBF7E" transform="rotate(30 21.5 7.5)"/><ellipse cx="13" cy="11" rx="4" ry="5" fill="#8FD09A"/></svg>
+      <div class="track"><i></i></div>
+      <span class="txt">再对 1 题开花</span>
+    </div>
+
+    <div class="pad">
+      <div class="row"><button class="key">1</button><button class="key">2</button><button class="key">3</button></div>
+      <div class="row"><button class="key">4</button><button class="key">5</button><button class="key">6</button></div>
+      <div class="row"><button class="key">7</button><button class="key">8</button><button class="key">9</button></div>
+      <div class="row"><button class="key op">⌫</button><button class="key">0</button><button class="key ok">确认 ✓</button></div>
+    </div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

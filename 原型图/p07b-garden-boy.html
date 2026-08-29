@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>07B · 成长花园 · 星际探险版</title>
+<style>
+:root{--green:#2FA37A;--deep:#14614A;--cream:#EEF5EF;--ink:#1E2B26;--muted:#7E938A;--volt:#8FE3C0;--amber:#FFB13D;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(20,97,74,.2),transparent),#C9DCCB;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#4E6353;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#0D1512;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(20,60,45,.5)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.nav{height:46px;display:flex;align-items:center;padding:0 14px;position:relative;flex-shrink:0}
+.nav .back{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(20,97,74,.14)}
+.nav .title{position:absolute;left:50%;transform:translateX(-50%);font-size:16.5px;font-weight:700}
+.content{flex:1;overflow-y:auto;padding:2px 18px 18px}
+/* 星球基地大场景 */
+.scene{position:relative;border-radius:24px;overflow:hidden;height:224px;background:linear-gradient(180deg,#0E2C33 0%,#134040 55%,#1A5A48 56%,#237A55 100%);box-shadow:0 10px 24px rgba(14,60,50,.4);border:2px solid #1B4A3D}
+.scene svg{position:absolute;inset:0;width:100%;height:100%}
+.balance{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.94);border-radius:999px;padding:7px 14px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.balance b{font-size:16px;color:#B96F14}
+.balance span{font-size:12px;color:var(--muted)}
+.scene .note{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11.5px;color:#BEE8D2}
+/* 机制说明 */
+.how{margin-top:12px;background:#fff;border:2px solid #DCE8DD;border-radius:18px;padding:12px 16px;display:flex;gap:14px;box-shadow:0 4px 14px rgba(20,97,74,.08)}
+.how .it{flex:1;text-align:center}
+.how .it b{display:block;font-size:13.5px;color:var(--deep)}
+.how .it span{font-size:11px;color:var(--muted)}
+.how .arr{align-self:center;color:#C4D6C6;font-size:18px}
+/* 兑换区 */
+.sec{margin:18px 2px 10px;font-size:16px;font-weight:800;display:flex;align-items:baseline}
+.sec::before{content:"";display:inline-block;width:9px;height:9px;background:var(--deep);margin-right:8px;clip-path:polygon(50% 0,100% 38%,78% 100%,22% 100%,0 38%)}
+.sec small{margin-left:auto;font-size:11.5px;font-weight:400;color:var(--muted)}
+.shop{display:flex;gap:12px}
+.item{flex:1;background:#fff;border:2px solid #DCE8DD;border-radius:20px;padding:14px;text-align:center;box-shadow:0 5px 16px rgba(20,97,74,.08);position:relative}
+.item .pic{width:84px;height:84px;margin:0 auto;border-radius:18px;display:flex;align-items:center;justify-content:center}
+.item.one .pic{background:linear-gradient(160deg,#123A32,#0E2C26)}
+.item.two .pic{background:linear-gradient(160deg,#22344F,#131F33)}
+.item h5{font-size:15px;margin-top:10px}
+.item p{font-size:11px;color:var(--muted);margin-top:2px}
+.cost{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:13px;font-weight:800;color:#B96F14}
+.btn-ex{margin-top:10px;width:100%;border:none;border-radius:10px;padding:9px 0;font-size:13.5px;font-weight:900;letter-spacing:.06em;background:linear-gradient(135deg,#2FA37A,#14614A);color:#fff;box-shadow:0 4px 0 #0C3D30}
+.item.locked{opacity:.62}
+.item.locked .btn-ex{background:#E7F0E8;color:#9AAFA3;box-shadow:none}
+.p1tag{position:absolute;top:10px;right:10px;font-size:9.5px;background:rgba(255,177,61,.2);color:#B96F14;border-radius:4px;padding:2px 7px;font-weight:800}
+.mybtns{display:flex;gap:10px;margin-top:16px}
+.my{flex:1;background:#fff;border:2px solid #DCE8DD;border-radius:16px;padding:12px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px rgba(20,97,74,.07)}
+.my .ic{width:36px;height:36px;border-radius:11px;background:#E7F0E8;display:flex;align-items:center;justify-content:center}
+.my h6{font-size:13px}
+.my p{font-size:10.5px;color:var(--muted);margin-top:1px}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+</style>
+</head>
+<body>
+<span class="caption">07B · 成长花园 · 星际探险版（男孩主题 · 答题充能量 · 集能量召唤机甲伙伴）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav">
+    <div class="back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E2B26" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <span class="title">星际探险基地</span>
+  </div>
+
+  <div class="content">
+    <div class="scene">
+      <svg viewBox="0 0 340 224" preserveAspectRatio="xMidYMid slice">
+        <!-- 星空 -->
+        <g fill="#BEE8D2"><circle cx="36" cy="30" r="1.8"/><circle cx="86" cy="58" r="1.4"/><circle cx="150" cy="24" r="1.6"/><circle cx="240" cy="46" r="1.4"/><circle cx="300" cy="20" r="1.8"/><circle cx="200" cy="70" r="1.2"/><circle cx="60" cy="90" r="1.3"/></g>
+        <path d="M120 30 l3 8 8 3 -8 3 -3 8 -3-8 -8-3 8-3z" fill="#8FE3C0" opacity=".9"/>
+        <path d="M268 84 l2.4 6 6 2.4 -6 2.4 -2.4 6 -2.4-6 -6-2.4 6-2.4z" fill="#FFD05C" opacity=".9"/>
+        <!-- 行星与环 -->
+        <g transform="translate(276 44)"><circle r="15" fill="#FFB13D"/><ellipse rx="26" ry="7" fill="none" stroke="#8FE3C0" stroke-width="2.6" transform="rotate(-16)"/><circle cx="-5" cy="-4" r="3" fill="#FFD98A" opacity=".7"/></g>
+        <circle cx="44" cy="60" r="10" fill="#5FD6A4" opacity=".85"/><circle cx="40" cy="57" r="3" fill="#0E2C26" opacity=".25"/>
+        <!-- 火箭花：花是火箭 -->
+        <g transform="translate(84 150)">
+          <path d="M0 46 V20 M0 30 q-10-3-12-13" stroke="#2FA37A" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <g transform="translate(0 8)"><path d="M0-18 C7-10 7 0 0 8 C-7 0 -7-10 0-18z" fill="#EAFCF2" stroke="#8FE3C0" stroke-width="2"/><circle cy="-3" r="3.4" fill="#5FD6A4" stroke="#14614A" stroke-width="1.6"/><path d="M-6 4 L-12 12 -3 9z M6 4 L12 12 3 9z" fill="#FFB13D"/><path d="M-2.6 8 L0 15 L2.6 8z" fill="#FF7A4D"/></g>
+        </g>
+        <!-- 晶体能量植物 -->
+        <g transform="translate(158 128)">
+          <path d="M0 66 V34" stroke="#2FA37A" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M0 36 L-12 14 L0 0 L12 14 Z" fill="#8FE3C0" stroke="#14614A" stroke-width="2"/>
+          <path d="M0 18 L-6 8 L0 2 L6 8 Z" fill="#D8F8E8"/>
+          <path d="M0 44 q-9-2-11-10 M0 52 q9-2 11-10" stroke="#2FA37A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- 小火箭花苗 -->
+        <g transform="translate(232 168)">
+          <path d="M0 36 V20" stroke="#2FA37A" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M0 20 C5 14 5 6 0 0 C-5 6 -5 14 0 20z" fill="#D8F8E8" stroke="#8FE3C0" stroke-width="2"/><circle cy="9" r="2.4" fill="#5FD6A4"/>
+        </g>
+        <!-- 月面地面 -->
+        <path d="M0 168 Q80 146 170 160 T340 152 V224 H0 Z" fill="#1E6B4E"/>
+        <ellipse cx="60" cy="196" rx="16" ry="4" fill="#1A5A42"/><ellipse cx="300" cy="204" rx="20" ry="5" fill="#1A5A42"/>
+        <!-- 机甲恐龙伙伴 -->
+        <g transform="translate(236 106)">
+          <rect x="0" y="18" width="64" height="40" rx="13" fill="#5FD6A4" stroke="#0E2C26" stroke-width="2.6"/>
+          <rect x="8" y="26" width="20" height="9" rx="3" fill="#8FE3C0" stroke="#0E2C26" stroke-width="2"/>
+          <path d="M10 18 L4 2 22 12z M54 18 L60 2 42 12z" fill="#3AAF7F" stroke="#0E2C26" stroke-width="2.4" stroke-linejoin="round"/>
+          <circle cx="20" cy="38" r="4.6" fill="#0E2C26"/><circle cx="46" cy="38" r="4.6" fill="#0E2C26"/>
+          <circle cx="21.6" cy="36.4" r="1.5" fill="#fff"/><circle cx="47.6" cy="36.4" r="1.5" fill="#fff"/>
+          <path d="M28 48 q7 5 14 0" stroke="#0E2C26" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <path d="M64 32 q10 2 8 12" stroke="#3AAF7F" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <rect x="26" y="-2" width="14" height="12" rx="4" fill="#FFB13D" stroke="#0E2C26" stroke-width="2.2"/>
+        </g>
+      </svg>
+      <div class="balance">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z" fill="#FFB13D" stroke="#B96F14" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <b>12</b><span>闪电能量</span>
+      </div>
+      <div class="note">机甲小龙「闪电」已入驻基地 · 陪你守卫能量花园</div>
+    </div>
+
+    <div class="how">
+      <div class="it"><b>答对充能</b><span>能量 +1</span></div>
+      <span class="arr">→</span>
+      <div class="it"><b>整组完成</b><span>点亮一颗星</span></div>
+      <span class="arr">→</span>
+      <div class="it"><b>能量兑换</b><span>机甲 / 星球</span></div>
+    </div>
+
+    <div class="sec">基地机库<small>只用能量兑换，不花钱</small></div>
+    <div class="shop">
+      <div class="item one">
+        <div class="pic"><svg width="58" height="56" viewBox="0 0 60 56"><rect x="8" y="18" width="44" height="28" rx="10" fill="#5FD6A4" stroke="#0E2C26" stroke-width="2.4"/><path d="M14 20 L9 6 24 14z M46 20 L51 6 36 14z" fill="#3AAF7F" stroke="#0E2C26" stroke-width="2.2" stroke-linejoin="round"/><circle cx="22" cy="31" r="3.6" fill="#0E2C26"/><circle cx="40" cy="31" r="3.6" fill="#0E2C26"/><circle cx="23.2" cy="29.8" r="1.2" fill="#fff"/><circle cx="41.2" cy="29.8" r="1.2" fill="#fff"/><path d="M26 39 q5 4 10 0" stroke="#0E2C26" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="24" y="4" width="12" height="10" rx="3.5" fill="#FFB13D" stroke="#0E2C26" stroke-width="2"/></svg></div>
+        <h5>机械迅猛龙</h5><p>基地新战伴</p>
+        <span class="cost"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z" fill="#FFB13D" stroke="#B96F14" stroke-width="1.4" stroke-linejoin="round"/></svg>10 度</span>
+        <button class="btn-ex">可召唤</button>
+      </div>
+      <div class="item two locked">
+        <span class="p1tag">P1 机库扩充</span>
+        <div class="pic"><svg width="60" height="56" viewBox="0 0 60 56"><path d="M30 4 C42 12 46 24 42 36 L18 36 C14 24 18 12 30 4z" fill="#8FE3C0" stroke="#0E2C26" stroke-width="2.4"/><circle cx="30" cy="20" r="6" fill="#0E2C26"/><circle cx="30" cy="20" r="3" fill="#8FE3C0"/><path d="M18 36 L10 48 24 42z M42 36 L50 48 36 42z" fill="#FF7A4D" stroke="#0E2C26" stroke-width="2.2"/><rect x="26" y="40" width="8" height="8" rx="2" fill="#FFB13D" stroke="#0E2C26" stroke-width="2"/></svg></div>
+        <h5>火星基地场景</h5><p>红色星球冒险</p>
+        <span class="cost"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z" fill="#FFB13D" stroke="#B96F14" stroke-width="1.4" stroke-linejoin="round"/></svg>30 度</span>
+        <button class="btn-ex">还差 18 度</button>
+      </div>
+    </div>
+
+    <div class="mybtns">
+      <div class="my">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#14614A" stroke-width="2" stroke-linejoin="round"><path d="M4 19V9l8-5 8 5v10"/><path d="M10 19v-5h4v5"/></svg></div>
+        <div><h6>我的星球</h6><p>绿意基地 · 1 个</p></div>
+      </div>
+      <div class="my">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 8-12h-6z" fill="#FFB13D"/></svg></div>
+        <div><h6>我的战伴</h6><p>闪电 · 1 位</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

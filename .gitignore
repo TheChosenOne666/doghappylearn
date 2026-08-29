@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.local
+.env
+.DS_Store
+
+# Taro / 编译产物
+client/dist/
+client/.temp/
+client/.swc/
+
+# 云函数本地调试产物
+cloud/functions/**/node_modules/
+cloud/functions/**/package-lock.json
+
+# 单测产物
+coverage/

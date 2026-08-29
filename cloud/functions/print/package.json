@@ -1,0 +1,11 @@
+{
+  "name": "fn-print",
+  "version": "0.1.0",
+  "private": true,
+  "description": "打印小铺模板与 PDF 生成（FR-C1-C4）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "pdfkit": "^0.15.0"
+  }
+}

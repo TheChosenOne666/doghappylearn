@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>03 · 打卡成功庆祝页</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;display:flex;flex-direction:column;position:relative;
+  background:radial-gradient(ellipse 90% 45% at 50% 0%,#FFF0C8 0%,transparent 55%),
+             radial-gradient(ellipse 70% 40% at 50% 100%,#CFE7BE 0%,transparent 60%),
+             linear-gradient(180deg,#FBF7E2,#EDF4DF)}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;color:var(--ink);flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:var(--ink);border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid var(--ink);border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:var(--ink);border-radius:1.5px}
+.skip{position:absolute;top:54px;right:20px;font-size:13px;color:#98A892;background:rgba(255,255,255,.8);border-radius:999px;padding:5px 13px}
+.content{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 22px 20px;position:relative}
+/* 彩带 */
+.confetti{position:absolute;top:0;left:0;right:0;height:280px;pointer-events:none}
+.confetti i{position:absolute;border-radius:3px;opacity:.9}
+.c1{width:9px;height:14px;background:#F5B840;left:14%;top:60px;transform:rotate(24deg)}
+.c2{width:8px;height:8px;background:#EC8A6E;left:26%;top:120px;transform:rotate(-18deg);border-radius:50%}
+.c3{width:9px;height:13px;background:#6FBF7E;left:80%;top:70px;transform:rotate(40deg)}
+.c4{width:7px;height:11px;background:#7EC8E3;left:88%;top:150px;transform:rotate(-30deg)}
+.c5{width:8px;height:8px;background:#F5B840;left:64%;top:36px;border-radius:50%}
+.c6{width:10px;height:10px;background:#F2A0B5;left:8%;top:150px;transform:rotate(14deg);border-radius:50%}
+.c7{width:8px;height:12px;background:#B79CE0;left:47%;top:24px;transform:rotate(60deg)}
+/* 主体 */
+.celebrate{margin-top:26px;text-align:center;position:relative}
+.flower{width:150px;filter:drop-shadow(0 10px 18px rgba(232,131,74,.3))}
+.celebrate h1{font-size:27px;color:var(--deep);margin-top:10px;letter-spacing:.05em}
+.celebrate .sub{font-size:13.5px;color:#6C8165;margin-top:6px}
+.streak-card{margin-top:20px;width:100%;background:#fff;border-radius:22px;border:1.5px solid #E2EADC;box-shadow:0 8px 24px rgba(60,120,80,.12);padding:18px;display:flex;align-items:center;gap:16px}
+.streak-card .big{font-size:40px;font-weight:900;color:#E8834A;line-height:1}
+.streak-card .big small{font-size:14px;color:var(--muted);font-weight:700;margin-left:3px}
+.streak-card .txt h4{font-size:15.5px;color:var(--ink)}
+.streak-card .txt p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+.paw-track{display:flex;gap:7px;margin-top:10px;align-items:center}
+.paw-track svg{opacity:.85}
+.paw-track .x{font-size:11px;color:var(--muted)}
+/* 订阅引导 */
+.remind{margin-top:14px;width:100%;background:linear-gradient(135deg,#FFF6DE,#FFEDC2);border:1.5px solid #F3D48A;border-radius:20px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+.remind .bell{flex-shrink:0;width:42px;height:42px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(176,119,8,.15)}
+.remind h5{font-size:14.5px;color:#8A5E06}
+.remind p{font-size:11.5px;color:#A98430;margin-top:3px;line-height:1.5}
+.remind button{margin-left:auto;flex-shrink:0;border:none;border-radius:999px;background:#E8834A;color:#fff;font-size:13px;font-weight:800;padding:9px 14px;box-shadow:0 4px 10px rgba(232,131,74,.35)}
+.actions{margin-top:auto;width:100%;display:flex;flex-direction:column;gap:10px}
+.btn-main{height:54px;border:none;border-radius:999px;background:linear-gradient(135deg,#46A86D,#2C7A4B);color:#fff;font-size:17px;font-weight:800;letter-spacing:.05em;box-shadow:0 10px 22px rgba(44,122,75,.32)}
+.btn-ghost{height:48px;border:none;border-radius:999px;background:rgba(255,255,255,.85);border:1.5px solid #D8E2C8;color:var(--deep);font-size:14.5px;font-weight:700}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+</style>
+</head>
+<body>
+<span class="caption">03 · 打卡成功庆祝页（FR-A1 / B2 · 顺带引导续订提醒，触达率关键）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <span class="skip">跳过 ›</span>
+
+  <div class="content">
+    <div class="confetti"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i><i class="c6"></i><i class="c7"></i></div>
+
+    <div class="celebrate">
+      <svg class="flower" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="46" fill="#FFF6DE"/>
+        <circle cx="80" cy="80" r="46" fill="none" stroke="#F3D48A" stroke-width="2.5" stroke-dasharray="3 9" stroke-linecap="round"/>
+        <g fill="#F5B840"><ellipse cx="80" cy="34" rx="17" ry="26"/><ellipse cx="80" cy="126" rx="17" ry="26"/><ellipse cx="34" cy="80" rx="26" ry="17"/><ellipse cx="126" cy="80" rx="26" ry="17"/><ellipse cx="49" cy="49" rx="16" ry="23" transform="rotate(-45 49 49)"/><ellipse cx="111" cy="49" rx="16" ry="23" transform="rotate(45 111 49)"/><ellipse cx="49" cy="111" rx="16" ry="23" transform="rotate(45 49 111)"/><ellipse cx="111" cy="111" rx="16" ry="23" transform="rotate(-45 111 111)"/></g>
+        <circle cx="80" cy="80" r="21" fill="#E8834A"/>
+        <circle cx="74" cy="76" r="3" fill="#3A2E22"/><circle cx="87" cy="76" r="3" fill="#3A2E22"/>
+        <path d="M73 86 q7 6 14 0" stroke="#3A2E22" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <ellipse cx="66" cy="84" rx="4.5" ry="3" fill="#F5A8A0" opacity=".6"/><ellipse cx="95" cy="84" rx="4.5" ry="3" fill="#F5A8A0" opacity=".6"/>
+      </svg>
+      <h1>今日打卡成功！</h1>
+      <p class="sub">3 个任务全部完成 · 只用了 9 分 42 秒</p>
+    </div>
+
+    <div class="streak-card">
+      <div class="big">6<small>天</small></div>
+      <div class="txt">
+        <h4>连续打卡 6 天啦</h4>
+        <p>再有 1 天就达成「7 天小勇士」徽章</p>
+        <div class="paw-track">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#3D9A63"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#3D9A63"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#3D9A63"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="#D5DEc4"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg>
+          <span class="x">…第 7 天</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="remind">
+      <div class="bell"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8834A" stroke-width="2" stroke-linecap="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg></div>
+      <div><h5>定个闹钟，明天继续</h5><p>到点微信提醒「今天学习了吗」，不怕忘</p></div>
+      <button>设提醒</button>
+    </div>
+
+    <div class="actions">
+      <button class="btn-main">生成打卡分享卡 · 晒给家人看</button>
+      <button class="btn-ghost">看看今天的学习报告</button>
+    </div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>11 · 打印 · 参数与预览</title>
+<style>
+:root{--green:#3D9A63;--deep:#2C7A4B;--cream:#F7F9EE;--ink:#2F3B33;--muted:#8A9689;--sun:#F5B840;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(61,154,99,.16),transparent),#D8E2C4;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#57684F;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#141B13;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(40,70,45,.4)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.nav{height:46px;display:flex;align-items:center;padding:0 14px;position:relative;flex-shrink:0}
+.nav .back{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(60,120,80,.12)}
+.nav .title{position:absolute;left:50%;transform:translateX(-50%);font-size:16.5px;font-weight:700}
+.content{flex:1;overflow-y:auto;padding:2px 18px 16px}
+/* 预览区 */
+.preview{background:#fff;border:1.5px solid #E2EADC;border-radius:22px;padding:16px;box-shadow:0 6px 18px rgba(60,120,80,.08)}
+.preview .head{display:flex;align-items:center;margin-bottom:12px}
+.preview .head h4{font-size:15.5px}
+.preview .head .pages{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700}
+.preview .head .pages b{color:var(--deep)}
+.pager{display:flex;gap:12px;align-items:center}
+.pager button{width:32px;height:32px;border:none;border-radius:50%;background:#EDF2E2;color:var(--deep);font-size:15px;flex-shrink:0}
+.sheet{flex:1;background:#fff;border:1.5px solid #E6E9DC;border-radius:6px;box-shadow:0 6px 16px rgba(60,120,80,.14);padding:16px 14px;position:relative;overflow:hidden}
+.sheet .brand{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.sheet .brand svg{flex-shrink:0}
+.sheet .brand b{font-size:10px;color:#5E6B58;letter-spacing:.08em}
+.sheet .grid-eq{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:13px}
+.sheet .eq{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.3px solid #D9E2CC;padding-bottom:3px}
+.sheet .eq b{font-size:12.5px;color:#4A5644;font-weight:700;letter-spacing:.04em}
+.sheet .pawline{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:8.5px;color:#B9C6AC;letter-spacing:.14em}
+.cut{position:absolute;top:6px;right:6px;font-size:8px;color:#C9D6BE;letter-spacing:.1em}
+/* 参数 */
+.sec{margin:16px 2px 8px;font-size:15.5px;font-weight:800;display:flex;align-items:baseline}
+.sec::before{content:"";display:inline-block;width:8px;height:8px;border-radius:3px;background:var(--green);transform:rotate(45deg);margin-right:8px;vertical-align:2px}
+.sec small{margin-left:auto;font-size:11px;font-weight:400;color:var(--muted)}
+.opt{margin-bottom:12px}
+.opt .lab{font-size:13px;color:var(--ink);margin-bottom:8px;font-weight:600}
+.opt .lab span{font-size:11px;color:var(--muted);font-weight:400}
+.seg{display:flex;gap:9px}
+.seg button{flex:1;height:46px;border:2px solid #E2EADC;border-radius:14px;background:#fff;font-size:14.5px;font-weight:700;color:var(--ink)}
+.seg button.on{border-color:var(--green);background:#EAF6EC;color:var(--deep);box-shadow:0 3px 10px rgba(61,154,99,.18)}
+.seg button .s{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:1px}
+.seg button.on .s{color:#6FA07C}
+.pre-tip{display:flex;align-items:center;gap:8px;background:#EFF6E4;border-radius:14px;padding:10px 14px;font-size:11.5px;color:#5F7D5A;line-height:1.5;margin-top:4px}
+/* 底部生成 */
+.bottom{flex-shrink:0;padding:12px 18px 6px;background:linear-gradient(180deg,rgba(247,249,238,0),var(--cream) 40%)}
+.btn-gen{display:flex;align-items:center;justify-content:center;gap:9px;height:56px;border:none;border-radius:999px;background:linear-gradient(135deg,#46A86D,#2C7A4B);color:#fff;font-size:17px;font-weight:800;letter-spacing:.05em;box-shadow:0 10px 22px rgba(44,122,75,.32)}
+.btn-gen small{font-size:11px;font-weight:600;opacity:.85}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.8}
+</style>
+</head>
+<body>
+<span class="caption">11 · 打印 · 参数设置与分页预览（FR-C2 / C3 · 大按钮分段选择器 · 默认值即开即用）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav">
+    <div class="back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F3B33" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <span class="title">口算题卡 · 设置</span>
+  </div>
+
+  <div class="content">
+    <div class="preview">
+      <div class="head"><h4>实时预览</h4><span class="pages">第 <b>1</b> / 3 页 · 20 题每页</span></div>
+      <div class="pager">
+        <button>‹</button>
+        <div class="sheet">
+          <span class="cut">- - - 裁切线 - - -</span>
+          <div class="brand">
+            <svg width="16" height="14" viewBox="0 0 26 20"><ellipse cx="13" cy="11" rx="9" ry="7" fill="#F2B56B"/><circle cx="10" cy="9" r="1.2" fill="#3A2E22"/><circle cx="16" cy="9" r="1.2" fill="#3A2E22"/><ellipse cx="13" cy="13" rx="1.4" ry="1" fill="#3A2E22"/></svg>
+            <b>趣狗乐学 · 口算题卡 · 6–8 岁 · 08.29</b>
+          </div>
+          <div class="grid-eq">
+            <div class="eq"><b>13 － 8 =</b></div><div class="eq"><b>12 － 9 =</b></div>
+            <div class="eq"><b>14 － 6 =</b></div><div class="eq"><b>11 － 4 =</b></div>
+            <div class="eq"><b>15 － 7 =</b></div><div class="eq"><b>13 － 5 =</b></div>
+            <div class="eq"><b>16 － 9 =</b></div><div class="eq"><b>12 － 3 =</b></div>
+            <div class="eq"><b>14 － 8 =</b></div><div class="eq"><b>11 － 7 =</b></div>
+            <div class="eq"><b>15 － 6 =</b></div><div class="eq"><b>13 － 9 =</b></div>
+            <div class="eq"><b>12 － 5 =</b></div><div class="eq"><b>17 － 9 =</b></div>
+          </div>
+          <div class="pawline">做完一页，记得给自己盖个小狗脚印</div>
+        </div>
+        <button>›</button>
+      </div>
+    </div>
+
+    <div class="sec">参数微调<small>不改也能直接印</small></div>
+
+    <div class="opt">
+      <div class="lab">运算类型</div>
+      <div class="seg"><button>加法</button><button>减法</button><button class="on">混合</button></div>
+    </div>
+    <div class="opt">
+      <div class="lab">数字范围 <span>（默认取孩子当前难度档）</span></div>
+      <div class="seg"><button>10 以内</button><button class="on">20 以内<span class="s">当前档位 L2</span></button><button>100 以内</button></div>
+    </div>
+    <div class="opt">
+      <div class="lab">题量</div>
+      <div class="seg"><button>20 题</button><button class="on">50 题</button><button>100 题</button></div>
+    </div>
+    <div class="opt">
+      <div class="lab">页数 <span>（50 题 ≈ 3 页）</span></div>
+      <div class="seg"><button>1 页</button><button class="on">3 页</button><button>5 页</button></div>
+    </div>
+
+    <div class="pre-tip">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#3D9A63"><ellipse cx="12" cy="15.5" rx="5" ry="4"/><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6.6" r="2.2"/><circle cx="14.5" cy="6.8" r="2.2"/><circle cx="18.2" cy="10.4" r="2.2"/></svg>
+      <span>已按今日薄弱点「20 以内退位减法」加大了减法题比例（约 7 成）</span>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <button class="btn-gen">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M7 8V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5V8"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 13h8v7H8z" fill="#fff"/></svg>
+      生成 PDF <small>A4 · 约 3 页 · 5 秒内完成</small>
+    </button>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

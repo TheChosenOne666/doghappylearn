@@ -1,0 +1,10 @@
+{
+  "name": "fn-report",
+  "version": "0.1.0",
+  "private": true,
+  "description": "学习报告/打卡月历（FR-B1/B2）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

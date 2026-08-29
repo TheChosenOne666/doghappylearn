@@ -1,0 +1,10 @@
+{
+  "name": "fn-track",
+  "version": "0.1.0",
+  "private": true,
+  "description": "埋点批量入库（PRD 9.2）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

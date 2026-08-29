@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>04B · 学习乐园 · 男孩机甲冒险版</title>
+<style>
+:root{--green:#2FA37A;--deep:#14614A;--cream:#EEF5EF;--ink:#1E2B26;--muted:#7E938A;--volt:#8FE3C0;--amber:#FFB13D;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(20,97,74,.2),transparent),#C9DCCB;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 0}
+.caption{color:#4E6353;font-size:13px;letter-spacing:.1em}
+.phone{width:396px;background:#0D1512;border-radius:52px;padding:10px;box-shadow:0 34px 70px rgba(20,60,45,.5)}
+.screen{width:376px;height:814px;border-radius:42px;overflow:hidden;background:
+  radial-gradient(ellipse 90% 30% at 50% 0%,#DDEFE2 0%,transparent 60%),var(--cream);
+  display:flex;flex-direction:column}
+.status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:14px;font-weight:700;flex-shrink:0}
+.status .icons{display:flex;gap:5px}
+.sig{width:17px;height:11px;background:#1d241c;border-radius:2px;clip-path:polygon(0 100%,20% 100%,20% 66%,40% 66%,40% 33%,60% 33%,60% 0,100% 0,100% 100%)}
+.batt{width:24px;height:12px;border:1.5px solid #1d241c;border-radius:3.5px;position:relative}
+.batt::after{content:"";position:absolute;inset:2px 7px 2px 2px;background:#1d241c;border-radius:1.5px}
+.nav{height:46px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.nav .title{font-size:16.5px;font-weight:700}
+.capsule{position:absolute;right:14px;top:5px;width:88px;height:34px;border:1px solid rgba(30,43,38,.14);background:rgba(255,255,255,.85);border-radius:999px;display:flex;align-items:center;justify-content:center;gap:14px}
+.capsule i{width:17px;height:17px;border-radius:50%;border:1.6px solid var(--ink);position:relative;display:block}
+.capsule i::after{content:"";position:absolute;inset:4px;background:var(--ink);border-radius:50%}
+.dots{display:flex;gap:3px}.dots b{width:3.5px;height:3.5px;background:var(--ink);border-radius:50%}
+.content{flex:1;overflow-y:auto;padding:4px 18px 14px}
+.page-head{display:flex;align-items:baseline;margin:6px 2px 12px}
+.page-head h2{font-size:21px;color:var(--ink)}
+.page-head p{margin-left:auto;font-size:12px;color:var(--muted)}
+.sec{margin:14px 2px 10px;font-size:16px;font-weight:800;display:flex;align-items:baseline}
+.sec::before{content:"";display:inline-block;width:9px;height:9px;background:var(--deep);margin-right:8px;clip-path:polygon(50% 0,100% 38%,78% 100%,22% 100%,0 38%)}
+.sec small{margin-left:auto;font-size:11.5px;font-weight:400;color:var(--muted)}
+/* 冒险地图 featured：手绘像素冒险场景 */
+.feat{position:relative;border-radius:22px;overflow:hidden;height:138px;background:linear-gradient(180deg,#123A32 0%,#0E2C26 100%);box-shadow:0 10px 22px rgba(20,97,74,.35);border:2px solid #1B4A3D}
+.feat svg{position:absolute;inset:0;width:100%;height:100%}
+.feat .txt{position:absolute;left:16px;top:14px;color:#EAFCF2}
+.feat .txt .tag{display:inline-block;font-size:10px;font-weight:800;color:#123A32;background:var(--volt);border-radius:4px;padding:3px 9px;letter-spacing:.06em}
+.feat .txt h3{font-size:19px;margin-top:7px;letter-spacing:.04em}
+.feat .txt p{font-size:11px;color:#9ED8BE;margin-top:3px}
+.feat .go{position:absolute;right:14px;bottom:12px;background:var(--amber);color:#3A2A08;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:900;letter-spacing:.08em;box-shadow:0 4px 0 #B96F14}
+/* 主玩法两卡 */
+.main-games{display:flex;gap:12px}
+.gcard{flex:1;border-radius:20px;padding:15px 14px;position:relative;overflow:hidden;min-height:150px;border:2px solid #1B4A3D}
+.gcard.oral{background:linear-gradient(160deg,#17594A,#0C2E26);color:#EAFCF2;box-shadow:0 8px 20px rgba(20,97,74,.3)}
+.gcard.memory{background:linear-gradient(160deg,#2A3C63,#16203C);color:#E7EDFF;box-shadow:0 8px 20px rgba(30,50,90,.3);border-color:#2A3C63}
+.gcard h4{font-size:17px;margin-top:8px;letter-spacing:.03em}
+.gcard p{font-size:11.5px;margin-top:3px;line-height:1.5;opacity:.85}
+.gcard .lv{display:inline-block;font-size:10px;font-weight:900;border-radius:4px;padding:2.5px 8px;letter-spacing:.05em;margin-top:8px}
+.gcard.oral .lv{background:rgba(143,227,192,.18);color:var(--volt);border:1px solid rgba(143,227,192,.4)}
+.gcard.memory .lv{background:rgba(255,177,61,.16);color:var(--amber);border:1px solid rgba(255,177,61,.4)}
+.gcard .badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;color:#123A32;background:var(--volt);border-radius:4px;padding:3px 8px}
+.gcard.memory .badge{background:var(--amber);color:#3A2A08}
+.gcard .art{position:absolute;right:6px;bottom:4px}
+/* P1 玩法 */
+.soon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.soon{background:#fff;border:2px dashed #C4D6C6;border-radius:16px;padding:12px 4px;text-align:center;color:#9AAFA3}
+.soon .ic{width:38px;height:38px;margin:0 auto 6px;border-radius:12px;background:#E7F0E8;display:flex;align-items:center;justify-content:center}
+.soon h6{font-size:11.5px;font-weight:700}
+.soon .p1{font-size:9.5px;color:#B08A3E;margin-top:2px}
+/* 成就与横幅 */
+.achieve{background:#fff;border:2px solid #DCE8DD;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 14px rgba(20,97,74,.08)}
+.achieve .medal{width:44px;height:44px;border-radius:12px;background:linear-gradient(160deg,#FFE9C2,#FFD48A);display:flex;align-items:center;justify-content:center}
+.achieve h5{font-size:14.5px}
+.achieve p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.achieve .chev{margin-left:auto;color:#C4D6C6;font-size:20px}
+.banner{border-radius:18px;padding:16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;margin-top:12px}
+.banner.ai{background:linear-gradient(130deg,#22344F,#131F33);color:#E7EDFF;border:2px solid #2E466B}
+.banner .txt h4{font-size:16px}
+.banner .txt p{font-size:11.5px;opacity:.8;margin-top:3px;line-height:1.5}
+.banner .txt .p1{display:inline-block;font-size:10px;background:var(--amber);color:#3A2A08;font-weight:900;border-radius:4px;padding:2.5px 9px;margin-top:8px}
+.banner.sync{background:linear-gradient(130deg,#DFF2E6,#C7E5D2);color:var(--deep);border:2px solid #B7DCC7}
+.banner.sync .txt p{color:#52756A;opacity:1}
+.banner.sync .txt .p1{background:#fff;color:var(--deep)}
+.tabbar{flex-shrink:0;background:rgba(255,255,255,.96);border-top:1px solid #DCE8DD;padding:8px 10px 4px;display:flex}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:#93A89C;padding:4px 0}
+.tab.on{color:var(--deep);font-weight:800}
+.tab svg{width:26px;height:26px}
+.home-ind{flex-shrink:0;height:22px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.96)}
+.home-ind i{width:130px;height:5px;border-radius:999px;background:#1d241c;opacity:.85}
+</style>
+</head>
+<body>
+<span class="caption">04B · 学习乐园 · 男孩机甲冒险版（与 04A 女孩萌宠版同结构、不同皮肤）</span>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:41</span><span class="icons"><span class="sig"></span><span class="batt"></span></span></div>
+  <div class="nav"><span class="title">学习乐园</span><span class="capsule"><span class="dots"><b></b><b></b><b></b></span><i></i></span></div>
+
+  <div class="content">
+    <div class="page-head"><h2>今天闯哪一关？</h2><p>单局不超过 4 分钟</p></div>
+
+    <div class="sec">冒险地图<small>不占用今日任务进度</small></div>
+    <!-- 像素冒险场景（内容插画） -->
+    <div class="feat">
+      <svg viewBox="0 0 340 138" preserveAspectRatio="xMidYMax slice">
+        <rect width="340" height="138" fill="none"/>
+        <circle cx="292" cy="26" r="16" fill="#8FE3C0" opacity=".25"/><circle cx="292" cy="26" r="9" fill="#8FE3C0" opacity=".45"/>
+        <path d="M0 96 L52 58 L96 96 Z" fill="#1B5245"/><path d="M60 100 L128 48 L196 100 Z" fill="#1E6350"/>
+        <path d="M186 34 l6 14 14 4 -14 4 -6 14 -6-14 -14-4 14-4z" fill="#FFD05C" opacity=".95"/>
+        <path d="M210 100 L262 62 L316 100 Z" fill="#1B5245"/>
+        <rect y="100" width="340" height="38" fill="#124137"/>
+        <g fill="#2FA37A"><rect x="20" y="108" width="10" height="8"/><rect x="120" y="112" width="14" height="8"/><rect x="236" y="106" width="9" height="8"/></g>
+        <!-- 小恐龙骑士 -->
+        <g transform="translate(230 46)">
+          <rect x="6" y="26" width="52" height="34" rx="12" fill="#5FD6A4"/>
+          <path d="M14 28 L8 12 24 20z M50 28 L56 12 40 20z" fill="#3AAF7F"/>
+          <circle cx="20" cy="40" r="4" fill="#0E2C26"/><circle cx="44" cy="40" r="4" fill="#0E2C26"/>
+          <circle cx="21.4" cy="38.6" r="1.3" fill="#fff"/><circle cx="45.4" cy="38.6" r="1.3" fill="#fff"/>
+          <path d="M28 50 q6 5 12 0" stroke="#0E2C26" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+          <rect x="24" y="6" width="16" height="14" rx="4" fill="#FFB13D"/>
+          <rect x="27" y="10" width="10" height="3" rx="1.5" fill="#3A2A08"/>
+        </g>
+        <path d="M36 34 l4 10 -10-2 4 12" stroke="#8FE3C0" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="150" y="20" width="5" height="5" fill="#8FE3C0" opacity=".7"/><rect x="164" y="32" width="4" height="4" fill="#8FE3C0" opacity=".5"/><rect x="84" y="24" width="4" height="4" fill="#FFD05C" opacity=".8"/>
+      </svg>
+      <div class="txt">
+        <span class="tag">NEW 关卡</span>
+        <h3>恐龙岛大冒险</h3>
+        <p>闯关集星星，召唤机甲小伙伴</p>
+      </div>
+      <button class="go">出发 ▶</button>
+    </div>
+
+    <div class="sec">自由练习</div>
+    <div class="main-games">
+      <div class="gcard oral">
+        <span class="badge">可玩</span>
+        <svg width="30" height="30" viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" rx="8" fill="rgba(143,227,192,.16)" stroke="#8FE3C0" stroke-width="1.6"/><text x="20" y="27" text-anchor="middle" font-size="16" font-weight="800" fill="#8FE3C0">＋</text></svg>
+        <h4>口算闯关</h4>
+        <p>20 以内加减 · 限时冲榜</p>
+        <span class="lv">LV.2</span>
+        <svg class="art" width="66" height="42" viewBox="0 0 66 42"><path d="M10 38 L26 20 l10 9 12-14 8 23z" fill="#8FE3C0" opacity=".9"/><rect x="44" y="6" width="4" height="4" fill="#FFD05C"/><rect x="54" y="14" width="3" height="3" fill="#FFD05C" opacity=".7"/></svg>
+      </div>
+      <div class="gcard memory">
+        <span class="badge">可玩</span>
+        <svg width="30" height="30" viewBox="0 0 40 40"><rect x="6" y="7" width="28" height="26" rx="6" fill="rgba(255,177,61,.2)" transform="rotate(-6 20 20)"/><rect x="7" y="8" width="28" height="26" rx="6" fill="#FFB13D"/><path d="M14 21 q6-8 12 0 q-6 8-12 0" fill="none" stroke="#3A2A08" stroke-width="2.4"/></svg>
+        <h4>卡片翻翻乐</h4>
+        <p>拼音 / 古诗 / 英语 · 配对对战</p>
+        <span class="lv">第 1 篇章</span>
+        <svg class="art" width="66" height="42" viewBox="0 0 66 42"><rect x="12" y="10" width="18" height="24" rx="4" fill="#FFD98A" transform="rotate(-8 21 22)"/><rect x="32" y="9" width="18" height="24" rx="4" fill="#FFB13D" transform="rotate(7 41 21)"/><circle cx="41" cy="21" r="6" fill="#3A2A08" opacity=".8"/></svg>
+      </div>
+    </div>
+
+    <div class="sec">即将解锁</div>
+    <div class="soon-grid">
+      <div class="soon"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9AAFA3" stroke-width="2"><circle cx="8" cy="8" r="4"/><circle cx="16" cy="16" r="4"/><path d="M11 11l2 2"/></svg></div><h6>图形配对</h6><div class="p1">P1</div></div>
+      <div class="soon"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9AAFA3" stroke-width="2"><path d="M12 3a9 9 0 1 0 9 9h-9z"/></svg></div><h6>数字涂色</h6><div class="p1">P1</div></div>
+      <div class="soon"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9AAFA3" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="8.5" y="13" width="7" height="7" rx="1.5"/></svg></div><h6>拼图</h6><div class="p1">P1</div></div>
+      <div class="soon"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9AAFA3" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="1.6" fill="#9AAFA3"/></svg></div><h6>专注力</h6><div class="p1">P1</div></div>
+    </div>
+
+    <div class="sec">基地与探索</div>
+    <div class="achieve">
+      <div class="medal"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 2l2.6 5.8L20.8 9l-4.4 4.2 1 6.2L12 16.5 6.6 19.4l1-6.2L3.2 9l6.2-1.2z" fill="#E8912A"/><path d="M12 5.5l1.5 3.3 3.4.6-2.5 2.4.6 3.4-3-1.7-3 1.7.6-3.4L7.1 9.4l3.4-.6z" fill="#FFE9C2"/></svg></div>
+      <div><h5>冒险者勋章</h5><p>已获得 3 枚 · 通关「恐龙岛 1-4」再得 1 枚</p></div>
+      <span class="chev">›</span>
+    </div>
+
+    <div class="banner ai">
+      <div class="txt">
+        <h4>AI 认知乐园</h4>
+        <p>机器人和智能音箱是怎么「思考」的？<br>看动画、玩任务，解锁 AI 徽章</p>
+        <span class="p1">P1 · 即将上线</span>
+      </div>
+      <svg width="66" height="58" viewBox="0 0 66 58"><rect x="14" y="14" width="38" height="30" rx="10" fill="#5FD6A4"/><circle cx="26" cy="28" r="3.4" fill="#0E2C26"/><circle cx="40" cy="28" r="3.4" fill="#0E2C26"/><path d="M27 35 q6 5 12 0" stroke="#0E2C26" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M20 14 v-6 M46 14 v-6" stroke="#5FD6A4" stroke-width="3" stroke-linecap="round"/><rect x="17" y="4" width="6" height="5" rx="1" fill="#FFB13D"/><rect x="43" y="4" width="6" height="5" rx="1" fill="#FFB13D"/></svg>
+    </div>
+
+    <div class="banner sync">
+      <div class="txt">
+        <h4>教材同步练习</h4>
+        <p>拍一拍课本这一页，练的就是学校正在教的</p>
+        <span class="p1">P1 · 即将上线</span>
+      </div>
+      <svg width="60" height="56" viewBox="0 0 60 56"><rect x="10" y="8" width="40" height="40" rx="6" fill="#fff" stroke="#6FAE8C" stroke-width="2.5"/><path d="M17 20 h18 M17 27 h26 M17 34 h12" stroke="#A9CFBA" stroke-width="3.2" stroke-linecap="round"/><circle cx="42" cy="38" r="9" fill="#14614A"/><path d="M38.5 38 l2.6 2.6 4.4-4.8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+
+  <div class="tabbar">
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11 12 4l8 7v8a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M10 20v-5h4v5"/></svg>首页</div>
+    <div class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 10.5h.01M15.5 10.5h.01M8.5 15c1 1.2 2.3 1.8 3.5 1.8s2.5-.6 3.5-1.8"/></svg>学习乐园</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 8V4.5A1.5 1.5 0 0 1 8.5 3h7A1.5 1.5 0 0 1 17 4.5V8"/><rect x="4" y="8" width="16" height="8" rx="2"/><path d="M8 13h8v7H8z" fill="currentColor" stroke="none" opacity=".18"/><path d="M8 13h8v7H8z"/></svg>打印小铺</div>
+    <div class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5"/></svg>个人中心</div>
+  </div>
+  <div class="home-ind"><i></i></div>
+</div></div>
+</body>
+</html>

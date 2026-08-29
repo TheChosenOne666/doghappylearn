@@ -1,0 +1,16 @@
+{
+  "name": "dog-happylearn",
+  "version": "0.1.0",
+  "private": true,
+  "description": "《趣狗乐学》小程序 - pnpm monorepo（client / cloud / shared）",
+  "scripts": {
+    "dev:weapp": "pnpm --filter client dev:weapp",
+    "build:weapp": "pnpm --filter client build:weapp",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}
